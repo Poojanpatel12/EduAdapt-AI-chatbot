@@ -1,0 +1,321 @@
+{
+  "name": "AI-Powered Personalized Educational Question-Answer Platform Development",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "Welcome to EduAdapt! 👋 I'm your AI learning assistant. Ask me any question about your studies and I'll provide clear, accurate explanations to help you understand better.",
+        "options": {
+          "allowFileUploads": true,
+          "inputPlaceholder": "Type your question..",
+          "loadPreviousSession": "memory",
+          "showWelcomeScreen": true,
+          "responseMode": "responseNodes"
+        }
+      },
+      "id": "fdf6ef63-71ca-40e5-a8b7-1400a69459a3",
+      "name": "Student Question Input",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        1168,
+        32
+      ],
+      "webhookId": "42c49a00-91f4-4e23-b64b-8f155795f395"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "id-1",
+              "name": "platformName",
+              "value": "EduAdapt",
+              "type": "string"
+            },
+            {
+              "id": "id-2",
+              "name": "supportedSubjects",
+              "value": "Mathematics, Science, English, History, Geography, Computer Science",
+              "type": "string"
+            },
+            {
+              "id": "id-3",
+              "name": "responseStyle",
+              "value": "Clear, step-by-step explanations suitable for students",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "ab6bc524-31a8-42c4-b06d-7a12ba427a43",
+      "name": "Workflow Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1456,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are EduAdapt, an AI-powered educational assistant.\n\nYour job is to:\n- Provide instant, accurate answers to student questions across all subjects.\n- Identify the correct subject automatically.\n- Give a step-by-step explanation in simple language.\n- Classify difficulty as easy / medium / hard.\n- Offer personalized learning support based on student level.\n- Suggest follow-up practice questions.\n\nALWAYS return your answer in the following JSON format:\n\n{\n  \"answer\": \"Final answer for the student.\",\n  \"subject\": \"Name of subject (Math, Science, English, etc.)\",\n  \"difficulty_level\": \"easy | medium | hard\",\n  \"explanation\": \"Step-by-step explanation suitable for students\",\n  \"key_concepts\": [\"concept1\", \"concept2\"],\n  \"follow_up_suggestions\": [\"question 1\", \"question 2\"]\n}\n"
+        }
+      },
+      "id": "b0bffeed-4de6-42f8-aa97-6dbe2ccc13c2",
+      "name": "Educational AI Assistant",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        1680,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "id": "2bc74d58-0651-438a-a1d2-65b3704da83f",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1184,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\t\"type\": \"object\",\n\t\"properties\": {\n\t\t\"answer\": {\n\t\t\t\"type\": \"string\",\n\t\t\t\"description\": \"The detailed answer or explanation to the student's question\"\n\t\t},\n\t\t\"subject\": {\n\t\t\t\"type\": \"string\",\n\t\t\t\"description\": \"The subject area this question relates to (e.g., Mathematics, Science, etc.)\"\n\t\t},\n\t\t\"difficulty_level\": {\n\t\t\t\"type\": \"string\",\n\t\t\t\"description\": \"Estimated difficulty level: easy, medium, or hard\"\n\t\t},\n\t\t\"explanation\": {\n\t\t\t\"type\": \"string\",\n\t\t\t\"description\": \"Step-by-step explanation suitable for students\"\n\t\t},\n\t\t\"key_concepts\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t},\n\t\t\t\"description\": \"List of key concepts covered in this answer\"\n\t\t},\n\t\t\"follow_up_suggestions\": {\n\t\t\t\"type\": \"array\",\n\t\t\t\"items\": {\n\t\t\t\t\"type\": \"string\"\n\t\t\t},\n\t\t\t\"description\": \"Suggested follow-up questions or topics to explore\"\n\t\t}\n\t}\n}"
+      },
+      "id": "5a30d50a-eaf4-4d25-a61e-0e11eb862baa",
+      "name": "Response Format Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1824,
+        256
+      ]
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 2048,
+          "temperature": 0.7
+        }
+      },
+      "id": "b6c7d63b-0ed2-474f-936f-a16856bf406f",
+      "name": "Groq AI Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        1696,
+        256
+      ],
+      "credentials": {
+        "groqApi": {
+          "id": "efDkGt5q3vX25TXo",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9aaf5c37-c817-4db2-8a9e-a5275255036c",
+              "name": "output",
+              "value": "={{ $json.output }}",
+              "type": "object"
+            },
+            {
+              "id": "3b7a140c-6729-4c49-b42d-cb42e668b680",
+              "name": "output.subject",
+              "value": "={{ $json.output.subject }}",
+              "type": "string"
+            },
+            {
+              "id": "83d93ec1-0bb5-41c9-9d4f-ea17b6840479",
+              "name": "output.difficulty_level",
+              "value": "={{ $json.output.difficulty_level }}",
+              "type": "string"
+            },
+            {
+              "id": "93109752-b9fe-4a10-8226-f19def5a6148",
+              "name": "output.explanation",
+              "value": "={{ $json.output.explanation }}",
+              "type": "string"
+            },
+            {
+              "id": "39acedbe-d926-4f0c-903a-bde327786253",
+              "name": "output.key_concepts",
+              "value": "={{ $json.output.key_concepts }}",
+              "type": "array"
+            },
+            {
+              "id": "0db60483-e8f1-480d-867d-474b07fe9850",
+              "name": "output.follow_up_suggestions",
+              "value": "={{ $json.output.follow_up_suggestions }}",
+              "type": "array"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "bd2075dc-22c1-462f-a743-506ac7d1812d",
+      "name": "Extract Answer Only",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2032,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "message": "={{ $json.finalMessage }}",
+        "waitUserReply": false,
+        "options": {
+          "memoryConnection": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.chat",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        32
+      ],
+      "id": "0bbcd352-f478-4010-8f1a-98f2fd89e5a2",
+      "name": "Respond to Chat"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the AI output\nconst data = $json.output || {};\n\n// Build a comprehensive response\nlet finalMessage = '';\n\n// Add the main answer\nif (data.answer) {\n  finalMessage += data.answer + '\\n\\n';\n}\n\n// Add explanation if available\nif (data.explanation) {\n  finalMessage += '**Explanation:**\\n' + data.explanation + '\\n\\n';\n}\n\n// Add follow-up suggestions/questions if available\nif (data.follow_up_suggestions && data.follow_up_suggestions.length > 0) {\n  finalMessage += '**Practice Questions:**\\n';\n  data.follow_up_suggestions.forEach((suggestion, index) => {\n    finalMessage += `${index + 1}. ${suggestion}\\n`;\n  });\n  finalMessage += '\\n';\n}\n\n// Add key concepts if available\nif (data.key_concepts && data.key_concepts.length > 0) {\n  finalMessage += '**Key Concepts:** ' + data.key_concepts.join(', ') + '\\n\\n';\n}\n\n// Add subject and difficulty if available\nif (data.subject || data.difficulty_level) {\n  finalMessage += '**Subject:** ' + (data.subject || 'N/A') + ' | **Difficulty:** ' + (data.difficulty_level || 'N/A');\n}\n\n// Fallback if nothing is available\nif (!finalMessage) {\n  finalMessage = \"I'm here! Ask me anything 😊\";\n}\n\n// Return it for Respond to Chat node\nreturn [{\n  json: {\n    finalMessage: finalMessage.trim()\n  }\n}];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2304,
+        176
+      ],
+      "id": "fb1ad538-b1c9-45df-b0b6-86c73082b0ff",
+      "name": "Code in JavaScript"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Student Question Input": {
+      "main": [
+        [
+          {
+            "node": "Workflow Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Workflow Configuration": {
+      "main": [
+        [
+          {
+            "node": "Educational AI Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Educational AI Assistant",
+            "type": "ai_memory",
+            "index": 0
+          },
+          {
+            "node": "Student Question Input",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Response Format Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Educational AI Assistant",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq AI Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Educational AI Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Educational AI Assistant": {
+      "main": [
+        [
+          {
+            "node": "Extract Answer Only",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Answer Only": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Respond to Chat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "12a84aed-672f-44a7-afb9-771ffcb4ba58",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "41cfd960c6efd0eb1da34007e6f597a4c0b378f77b74f0259700ae672ee724dc"
+  },
+  "id": "cV3AJ5CevKtJCCeK",
+  "tags": []
+}
