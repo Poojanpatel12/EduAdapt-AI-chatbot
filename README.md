@@ -1,3 +1,10 @@
+### EduAdapt-AI-chatbot
+EduAdapt-AI-Chatbot is an AI-powered chatbot built to assist students in learning through instant Q&A and explanations.
+It integrates LLM-based intelligence to provide accurate and personalized responses.
+Designed as a scalable educational AI system using Python.
+
+
+----
 # 🤖 AI-Powered Personalized Educational Question–Answer Chatbot
 
 This project is an **AI-based educational assistant** built using **n8n**, designed to answer academic questions, explain concepts, and help students learn more effectively. The chatbot uses a Large Language Model (LLM) to generate clear, simple, and personalized responses for users.
