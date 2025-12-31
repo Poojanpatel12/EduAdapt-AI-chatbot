@@ -113,17 +113,7 @@ You can deploy this chatbot on:
 
 Tell me where you want to deploy it — I can give full setup instructions.
 
----
 
-## 🎯 Future Improvements
-
-- Add chat history memory  
-- Voice input / voice output  
-- PDF summarizer  
-- AI-based quiz generator  
-- Student profile learning  
-- Gujarati/Hindi/English multi-language support  
-- Exam timetable generator  
 
 ---
 
@@ -138,6 +128,10 @@ AI/ML Enthusiast • Developer • Student at GTU
 ## ⭐ Support
 
 If you like this project, consider giving a **star** ⭐ on GitHub!
+Feel free to open issues, suggest improvements, or request new automation workflows.
+This repository will continue expanding with more AI-driven systems.
+
+
 
 ---
 
