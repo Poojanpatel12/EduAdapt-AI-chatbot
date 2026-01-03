@@ -121,7 +121,7 @@ Tell me where you want to deploy it — I can give full setup instructions.
 
 **Poojan Patel**  
 AI/ML Enthusiast • Developer • Student at GTU  
-(You can update this section as you want)
+
 
 ---
 
